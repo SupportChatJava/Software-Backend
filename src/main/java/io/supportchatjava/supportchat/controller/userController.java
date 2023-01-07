@@ -5,6 +5,7 @@ import io.supportchatjava.supportchat.repositories.userRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.web.bind.annotation.*;
 
 import io.supportchatjava.supportchat.repositories.userRepository;
@@ -33,6 +34,7 @@ public class userController {
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
     }
 
+    @Async
     @PostMapping("/login")
     public ResponseEntity<User> login(@RequestBody User user) throws Exception {
         User foundUser = userRepository.findByEmail(user.email);
@@ -49,8 +51,7 @@ public class userController {
     }
 
     @GetMapping("/user")
-    public List<User> users() {
-
+    public List<User> getUsers() {
         return userRepository.findAll();
     }
 
