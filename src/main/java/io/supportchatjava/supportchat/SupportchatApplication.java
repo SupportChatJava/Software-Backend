@@ -16,10 +16,10 @@ public class SupportchatApplication {
 	@Bean
 	CommandLineRunner run(userRepository userRepository) {
 		return args -> {
-			userRepository.save(new User(1L, "Kayle@mail", "Kayle"));
-			userRepository.save(new User(2L, "Xander@mail", "Xander"));
-			userRepository.save(new User(3L, "Pieter@mail", "Pieter"));
-			userRepository.save(new User(4L, "Teun@mail", "Teun"));
+			userRepository.save(new User(1L, "Kayle@email.com", "Kayle"));
+			userRepository.save(new User(2L, "Xander@email.com", "Xander"));
+			userRepository.save(new User(3L, "Pieter@email.com", "Pieter"));
+			userRepository.save(new User(4L, "Teun@email.com", "Teun"));
 		};
 	}
 }
