@@ -50,7 +50,7 @@ public class userController {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
     }
 
-    @GetMapping("/user")
+    @GetMapping("/users")
     public List<User> getUsers() {
         return userRepository.findAll();
     }
@@ -63,3 +63,4 @@ public class userController {
 
 }
 
+// TODO: Make it so that bought items get placed into a table
