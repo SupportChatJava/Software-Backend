@@ -55,6 +55,18 @@ public class userController {
         return userRepository.findAll();
     }
 
+    @PutMapping("/user/{id}")
+    public ResponseEntity<User>updateUser(@PathVariable Integer id, @RequestBody User user) {
+        User foundUser = userRepository.findByEmail(user.email);
+        user.id = (long)id;
+        if(foundUser == null){
+            userRepository.save(user);
+            return ResponseEntity.status(HttpStatus.CREATED).body(user);
+        }
+        // Email already exists
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
+    }
+
 
     @GetMapping("/user/{id}")
     public ResponseEntity<User>getUser(@PathVariable Integer id) {

@@ -27,6 +27,7 @@ public class productController {
     @Autowired
     private userRepository userRepository;
 
+
     @GetMapping("/products")
     public List<Product> getProducts() {
         return productRepository.findAll();
@@ -38,13 +39,13 @@ public class productController {
     }
 
     @PostMapping ("/product/{id}")
-    public ResponseEntity<Product> buyProduct(@PathVariable Integer id) {
+    public ResponseEntity<Cart> buyProduct(@PathVariable Integer id) {
 
         Product product = productRepository.findById(id.longValue()).orElse(null);
-        User user = userRepository.findById(1L).orElse(null);
-        Cart cart = new Cart(1L, product, user);
+        User user = userRepository.findById(1L).orElse(null); // TODO: Fix that user id's get stored in session
+        Cart cart = new Cart(product, user);
 
         cartRepository.save(cart);
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
+        return ResponseEntity.status(HttpStatus.CREATED).body(cart);
     }
 }

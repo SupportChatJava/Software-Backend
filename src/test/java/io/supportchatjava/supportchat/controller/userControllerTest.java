@@ -29,15 +29,17 @@ import static org.mockito.Mockito.*;
 class userControllerTest {
 
      private userRepository userRepository;
+     private userController userController;
 
     @BeforeEach
-    void setupController(){
+    void setupRepo(){
         userRepository = mock(userRepository.class);
     }
 
     @Test
     void register() {
         User user1 = new User(1L,"Pieter@Email.com", "Pieter1");
+        //userController.register();
 //        when(userRepository.save(user1)).then(returnsFirstArg());
 //        verify()
 //        assertEquals(user1.email, gottenUser.email );

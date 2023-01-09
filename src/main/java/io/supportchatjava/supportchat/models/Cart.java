@@ -23,5 +23,8 @@ public class Cart {
     public User user;
 
 
-
+    public Cart(Product product, User user) {
+        this.product = product;
+        this.user = user;
+    }
 }
