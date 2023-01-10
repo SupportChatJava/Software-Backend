@@ -1,64 +1,95 @@
 package io.supportchatjava.supportchat.controller;
 
 import io.supportchatjava.supportchat.models.User;
-import io.supportchatjava.supportchat.repositories.userRepository;
-import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.stereotype.Component;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.RequestBuilder;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.AdditionalAnswers.returnsFirstArg;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.when;
 
-//@ExtendWith(SpringExtension.class)
-//@WebMvcTest(userController.class) // Loads minimal spring requirements
-@RequiredArgsConstructor
+
+
+
 class userControllerTest {
 
-     private userRepository userRepository;
+    @InjectMocks
+    userController userController;
+
+    @Mock
+    io.supportchatjava.supportchat.repositories.userRepository userRepository;
 
     @BeforeEach
-    void setupController(){
-        userRepository = mock(userRepository.class);
+    public void setUp(){
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
     void register() {
-        User user1 = new User(1L,"Pieter@Email.com", "Pieter1");
-//        when(userRepository.save(user1)).then(returnsFirstArg());
-//        verify()
-//        assertEquals(user1.email, gottenUser.email );
+        //Arrange
+        User userMock = new User(1L, "User1@email.com", "User1");
+        when(userRepository.save(Mockito.any())).thenReturn(userMock);
+
+        //Act
+        userController.register(userMock);
+        ResponseEntity<User> response = userController.register(userMock);
+
+        //Assert
+        assertEquals(HttpStatus.CREATED, response.getStatusCode());
     }
 
     @Test
     void login() {
-        assertTrue(true);
+
     }
 
     @Test
     void users() throws Exception {
-        User user1 = new User(1L,"Pieter1@Email.com", "Pieter1");
-        User user2 = new User(2L,"Pieter2@Email.com", "Pieter2");
-        User user3 = new User(3L,"Pieter3@Email.com", "Pieter3");
+        //Arrange
+        List<User> usersMock = new ArrayList<>();
+        usersMock.add(new User(1L, "User1@email.com", "User1"));
+        usersMock.add(new User(2L, "User2@email.com", "User2"));
+        when(userRepository.findAll()).thenReturn(usersMock);
 
-        assertTrue(true);
+        //Act
+        List<User> users = userController.getUsers();
+
+
+
+        //Assert
+        assertEquals(usersMock.get(0).id, users.get(0).id);
+        assertEquals(usersMock.get(0).email, users.get(0).email);
+        assertEquals(usersMock.get(0).password, users.get(0).password);
+
+        assertEquals(usersMock.get(1).id, users.get(1).id);
+        assertEquals(usersMock.get(1).email, users.get(1).email);
+        assertEquals(usersMock.get(1).password, users.get(1).password);
     }
 
     @Test
     void getUser() {
-        assertTrue(true);
+        //Arrange
+        Integer userId = 1;
+
+        User userMock = new User(1L, "User1@email.com", "User1");
+        when(userRepository.findById(Mockito.anyLong())).thenReturn(Optional.of(userMock));
+
+        //Act
+        User user = userController.getUser(userId).getBody();
+
+        assertEquals(userMock.id, user.id);
+        assertEquals(userMock.email, user.email);
+        assertEquals(userMock.password, user.password);
     }
 }

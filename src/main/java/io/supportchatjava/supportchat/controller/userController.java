@@ -50,9 +50,21 @@ public class userController {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
     }
 
-    @GetMapping("/user")
+    @GetMapping("/users")
     public List<User> getUsers() {
         return userRepository.findAll();
+    }
+
+    @PutMapping("/user/{id}")
+    public ResponseEntity<User>updateUser(@PathVariable Integer id, @RequestBody User user) {
+        User foundUser = userRepository.findByEmail(user.email);
+        user.id = (long)id;
+        if(foundUser == null){
+            userRepository.save(user);
+            return ResponseEntity.status(HttpStatus.CREATED).body(user);
+        }
+        // Email already exists
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
     }
 
 
@@ -63,3 +75,4 @@ public class userController {
 
 }
 
+// TODO: Make it so that bought items get placed into a table
