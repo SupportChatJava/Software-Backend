@@ -22,7 +22,7 @@ public class userController {
 
 
 
-    @PostMapping("/register")
+    @PostMapping("/user")
     public ResponseEntity<User> register(@RequestBody User user) {
         User foundUser = userRepository.findByEmail(user.email);
 
@@ -35,7 +35,7 @@ public class userController {
     }
 
     @Async
-    @PostMapping("/login")
+    @PostMapping("/login") // should be auth controller
     public ResponseEntity<User> login(@RequestBody User user) throws Exception {
         User foundUser = userRepository.findByEmail(user.email);
 

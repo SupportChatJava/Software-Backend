@@ -3,6 +3,7 @@ package io.supportchatjava.supportchat.models;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Data
@@ -16,14 +17,14 @@ public class Cart {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long id;
 
-    @ManyToOne
-    public Product product;
+    @ManyToMany
+    public List<Product> product;
 
     @OneToOne
     public User user;
 
 
-    public Cart(Product product, User user) {
+    public Cart(List<Product> product, User user) {
         this.product = product;
         this.user = user;
     }
