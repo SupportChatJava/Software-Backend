@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -41,11 +42,26 @@ public class productController {
     @PostMapping ("/product/{id}")
     public ResponseEntity<Cart> buyProduct(@PathVariable Integer id) {
 
-        Product product = productRepository.findById(id.longValue()).orElse(null);
+        List<Product> product = new ArrayList<>();
+        product.add(productRepository.findById(id.longValue()).orElse(null));
         User user = userRepository.findById(1L).orElse(null); // TODO: Fix that user id's get stored in session
         Cart cart = new Cart(product, user);
 
         cartRepository.save(cart);
         return ResponseEntity.status(HttpStatus.CREATED).body(cart);
     }
+
+    @PostMapping ("/product")
+    public ResponseEntity<Cart> buyProducts(@RequestBody List<Product> productList) {
+        System.out.println(productList);
+
+
+        User user = userRepository.findById(1L).orElse(null); // TODO: Fix that user id's get stored in session
+
+        Cart cart = new Cart(productList, user);
+
+        cartRepository.save(cart);
+        return ResponseEntity.status(HttpStatus.CREATED).body(cart);
+    }
 }
+
