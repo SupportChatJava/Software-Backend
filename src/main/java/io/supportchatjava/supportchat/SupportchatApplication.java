@@ -20,7 +20,7 @@ public class SupportchatApplication {
 		return args -> {
 			userRepository.save(new User(1L, "Kayle@email.com", "Kayle"));
 			userRepository.save(new User(2L, "Xander@email.com", "Xander"));
-			userRepository.save(new User(3L, "Pieter@email.com", "Pieter"));
+			userRepository.save(new User(3L, "Kyan@email.com", "Kyan"));
 			userRepository.save(new User(4L, "Teun@email.com", "Teun"));
 
 			productRepository.save(new Product(1L, "Chair", "This is a chair", 5.00));
