@@ -26,7 +26,7 @@ public class SupportchatApplication {
 			productRepository.save(new Product(1L, "Chair", "This is a chair", 5.00));
 			productRepository.save(new Product(2L, "Table", "This is a table", 14.95));
 			productRepository.save(new Product(3L, "Light", "This is a light", 9.95));
-			productRepository.save(new Product(4L, "Plates", "These are plate", 2.95));
+			productRepository.save(new Product(4L, "Plates", "These are plates", 2.95));
 		};
 	}
 
